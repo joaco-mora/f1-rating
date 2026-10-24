@@ -107,6 +107,16 @@ barata; la latencia no importa para un proceso batch.
       ```
       *Por qué dos roles:* `objectCreator` permite crear pero no leer; el ingestor
       necesita `objectViewer` para revisar si una ronda ya existe. Ninguno permite borrar.
+- [ ] Da permiso de construcción a la cuenta que usa Cloud Build:
+      ```bash
+      PROJECT_NUMBER=$(gcloud projects describe f1-rating-TUSUFIJO --format="value(projectNumber)")
+      gcloud projects add-iam-policy-binding f1-rating-TUSUFIJO \
+        --member=serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com \
+        --role=roles/run.builder
+      ```
+      *Por qué:* Cloud Build construye la imagen con la cuenta por defecto de Compute Engine,
+      que en proyectos nuevos ya no recibe el rol Editor. Sin `roles/run.builder`, el deploy
+      falla con `403 ... storage.objects.get`. El permiso tarda ~2 minutos en propagarse.
 - [ ] Despliega el job desde la carpeta `ingestor` (Cloud Build construye la imagen con el Dockerfile):
       ```bash
       cd ingestor
