@@ -1,6 +1,7 @@
 # ADR-003: Arquitectura orientada a eventos en GCP
 
-- **Estado:** Propuesto
+- **Estado:** Aceptado (2026-10-24), con las precisiones de la sección
+  "Decisiones tomadas en la implementación"
 - **Fecha:** 2026-10-22
 - **Relacionado:** ADR-001 (modelo de rating)
 
@@ -79,7 +80,35 @@ flowchart LR
 - (−) Más piezas móviles que un cron; la observabilidad (logs, alertas del DLQ) es obligatoria.
 - (−) La lógica de orden vive en el `rating-engine`, no en la infraestructura.
 
+## Decisiones tomadas en la implementación
+
+Precisiones surgidas al desplegar la ingesta (2026-10-24):
+
+- **Identidades separadas por función:**
+  - `f1-ingestor`: `storage.objectCreator` y `storage.objectViewer` **solo sobre el
+    bucket de aterrizaje**. Puede crear y leer, pero no borrar: la inmutabilidad de los
+    datos crudos queda impuesta por IAM, no solo por el código.
+  - `f1-scheduler`: `run.invoker` **solo sobre cada job** que dispara. Puede iniciar
+    ejecuciones, pero no toca datos.
+  - La construcción de imágenes usa la cuenta por defecto de Compute Engine con
+    `run.builder`, porque en proyectos nuevos esa cuenta ya no recibe el rol Editor.
+- **Backfill como job dedicado (`f1-backfill`)**, con la misma imagen que `f1-ingestor`
+  y argumentos fijos. Alternativa descartada: ejecutar `f1-ingestor` con argumentos
+  sobrescritos desde el scheduler, que exige `run.jobs.runWithOverrides` (rol
+  `run.jobsExecutorWithOverrides`) y le permitiría al scheduler ejecutar el ingestor
+  con cualquier argumento.
+- **Programación del borde:** cada 6 horas los domingos y lunes, hora de Chile
+  (`0 */6 * * 0,1`). El lunes cubre la demora de Jolpica en publicar resultados.
+- **Autenticación del scheduler:** OAuth, porque llama a una API de Google
+  (`run.googleapis.com`). Las llamadas futuras a servicios Cloud Run propios usarán OIDC.
+- **Controles de costo:** presupuesto con alertas (avisa) y cuota diaria de consultas
+  en BigQuery de ~10 GiB (corta).
+
 ## Pendientes
-- IAM: una service account por servicio con permisos mínimos.
+- Service account dedicada para Cloud Build, en vez de la cuenta por defecto de Compute.
+- Investigar el consumo de llamadas del backfill: cada corrida agotó las 450 llamadas
+  descargando ~125 rondas (~250 llamadas esperadas). Hipótesis: respuestas 429 de
+  Jolpica cuyos reintentos cuentan contra el presupuesto.
+- Detectar la temporada actual en el ingestor, en vez de fijarla en los argumentos (2026).
 - Alerta cuando haya mensajes en el dead-letter topic o filas en cuarentena.
 - Infraestructura como código (Terraform) en una segunda iteración.
