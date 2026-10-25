@@ -1,0 +1,91 @@
+status,coincidencia,status_normalizado,desde_temporada,hasta_temporada,categoria,tratamiento,peso_derrota,nota
+Finished,exacta,Finished,,,terminado,duelo,,Vio la bandera a cuadros
+Lapped,exacta,Lapped,,,terminado,duelo,,Vio la bandera a cuadros
++,prefijo,Lapped,,,terminado,duelo,,Terminó con vueltas de atraso; misma situación que 'Lapped'
+Collision,exacta,Collision,,,colision,derrota_ponderada,0.5,Los datos no dicen quién tuvo la culpa: peso reducido
+Collision damage,exacta,Collision damage,,,colision,derrota_ponderada,0.5,Los datos no dicen quién tuvo la culpa: peso reducido
+Accident,exacta,Accident,,,error_piloto,derrota,1.0,Pérdida de control sin otro auto involucrado
+Spun off,exacta,Spun off,,,error_piloto,derrota,1.0,Pérdida de control sin otro auto involucrado
+Engine,exacta,Engine,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Gearbox,exacta,Gearbox,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Hydraulics,exacta,Hydraulics,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Brakes,exacta,Brakes,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Suspension,exacta,Suspension,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Electrical,exacta,Electrical,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Power Unit,exacta,Power Unit,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Transmission,exacta,Transmission,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Mechanical,exacta,Mechanical,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Fuel pressure,exacta,Fuel pressure,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Driveshaft,exacta,Driveshaft,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Oil leak,exacta,Oil leak,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Clutch,exacta,Clutch,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Power loss,exacta,Power loss,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Throttle,exacta,Throttle,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Steering,exacta,Steering,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Overheating,exacta,Overheating,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Exhaust,exacta,Exhaust,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Electronics,exacta,Electronics,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Water leak,exacta,Water leak,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Water pressure,exacta,Water pressure,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Oil pressure,exacta,Oil pressure,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Fuel system,exacta,Fuel system,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Turbo,exacta,Turbo,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Battery,exacta,Battery,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+ERS,exacta,ERS,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Technical,exacta,Technical,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Pneumatics,exacta,Pneumatics,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Alternator,exacta,Alternator,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Radiator,exacta,Radiator,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Halfshaft,exacta,Halfshaft,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Fuel pump,exacta,Fuel pump,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Track rod,exacta,Track rod,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Heat shield fire,exacta,Heat shield fire,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Drivetrain,exacta,Drivetrain,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Differential,exacta,Differential,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Water pump,exacta,Water pump,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Spark plugs,exacta,Spark plugs,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Oil line,exacta,Oil line,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Launch control,exacta,Launch control,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Ignition,exacta,Ignition,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Fuel leak,exacta,Fuel leak,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Engine misfire,exacta,Engine misfire,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Engine fire,exacta,Engine fire,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Crankshaft,exacta,Crankshaft,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Cooling system,exacta,Cooling system,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Chassis,exacta,Chassis,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Brake duct,exacta,Brake duct,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Undertray,exacta,Undertray,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Fire,exacta,Fire,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Vibrations,exacta,Vibrations,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Seat,exacta,Seat,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Driver Seat,exacta,Driver Seat,,,mecanico,excluir_penaliza_constructor,,Falla del auto: el piloto no pierde el duelo
+Wheel,exacta,Wheel,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Wheel nut,exacta,Wheel nut,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Wheel rim,exacta,Wheel rim,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Fuel rig,exacta,Fuel rig,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Refuelling,exacta,Refuelling,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Out of fuel,exacta,Out of fuel,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Fuel,exacta,Fuel,,,operacion_equipo,excluir_penaliza_constructor,,Error de pits o de estrategia: responsabilidad del equipo
+Retired,exacta,Retired,,,no_atribuible,excluir,,Genérico. Desde 2023 la fuente registra así casi todos los abandonos (deriva semántica): ver ADR-004
+Puncture,exacta,Puncture,,,no_atribuible,excluir,,'Puncture' y 'Tyre puncture' son lo mismo. Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Tyre puncture,exacta,Puncture,,,no_atribuible,excluir,,'Puncture' y 'Tyre puncture' son lo mismo. Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Tyre,exacta,Tyre,,,no_atribuible,excluir,,Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Debris,exacta,Debris,,,fortuito,excluir,,Restos de otro auto: azar por la velocidad; no penaliza a nadie
+Damage,exacta,Damage,,,no_atribuible,excluir,,Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Front wing,exacta,Front wing,,,no_atribuible,excluir,,Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Rear wing,exacta,Rear wing,,,no_atribuible,excluir,,Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Broken wing,exacta,Broken wing,,,no_atribuible,excluir,,Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Handling,exacta,Handling,,,no_atribuible,excluir,,Causa indeterminable con los datos disponibles; revisado y excluido sin culpables
+Not restarted,exacta,Not restarted,,,no_reanudo,derrota_ponderada,0.5,"No volvió tras bandera roja; medio peso, como el reglamento de puntos en carreras incompletas"
+Not classified,exacta,Not classified,,,mecanico,excluir_penaliza_constructor,,"Cubrió menos del 90% de la distancia; si fuera choque diría daño, lo probable es falla del auto"
+Disqualified,exacta,Disqualified,,,sancion,excluir,,Puede ser técnica (equipo) o deportiva (piloto); fuera del duelo y marcado
+Excluded,exacta,Excluded,,,sancion,excluir,,Puede ser técnica (equipo) o deportiva (piloto); fuera del duelo y marcado
+Did not start,exacta,Did not start,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Withdrew,exacta,Withdrew,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Injured,exacta,Injured,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Injury,exacta,Injury,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Illness,exacta,Illness,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Safety concerns,exacta,Safety concerns,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Safety,exacta,Safety,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Stalled,exacta,Stalled,,2013,error_piloto,derrota,1.0,"Antes del cambio de reglas, calar el motor era error del piloto (año del cambio a validar)"
+Stalled,exacta,Stalled,2014,,mecanico,excluir_penaliza_constructor,,"Desde el cambio de reglas, calar implica falla del auto (año del cambio a validar)"
