@@ -75,6 +75,7 @@ def run(seasons: list[int], backend: str, dest: str) -> dict:
         summary["presupuesto_agotado"] = True
 
     summary["llamadas_api"] = client.calls
+    summary["rechazos_429"] = client.rejected
     return summary
 
 

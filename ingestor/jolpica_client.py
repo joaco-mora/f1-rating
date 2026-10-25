@@ -5,6 +5,7 @@ No sabe nada de archivos ni de GCS; eso vive en storage.py.
 """
 
 import logging
+import os
 import time
 
 import requests
@@ -12,8 +13,11 @@ import requests
 BASE_URL = "https://api.jolpi.ca/ergast/f1"
 
 # Límites publicados por Jolpica: 4 requests/segundo y 500/hora.
-# Dejamos margen para no rozar el límite.
-MIN_SECONDS_BETWEEN_CALLS = 0.3   # ~3,3 req/s
+#
+# Pausa mínima entre llamadas, configurable sin tocar el código (JOLPICA_MIN_INTERVAL).
+# Con 0,3 s, Cloud Run recibía 429 tras ~30 llamadas; desde un computador local,
+# la latencia frena solo el ritmo a ~1 llamada/s y no hubo 429. Ver ADR-003.
+MIN_SECONDS_BETWEEN_CALLS = float(os.environ.get("JOLPICA_MIN_INTERVAL", "1.0"))
 MAX_CALLS_PER_RUN = 450           # bajo las 500/hora
 
 log = logging.getLogger(__name__)
@@ -28,6 +32,7 @@ class JolpicaClient:
         self.session = session or requests.Session()
         self._last_call = 0.0
         self.calls = 0
+        self.rejected = 0   # respuestas 429: se reportan aparte para diagnosticar
 
     def _throttle(self) -> None:
         """Espera lo necesario para respetar el ritmo máximo."""
@@ -52,6 +57,8 @@ class JolpicaClient:
                 return resp.json()
 
             # 429 = nos pasamos del límite; 5xx = falla del servidor. Ambos se reintentan.
+            if resp.status_code == 429:
+                self.rejected += 1
             if resp.status_code == 429 or resp.status_code >= 500:
                 backoff = int(resp.headers.get("Retry-After", 2 ** (attempt + 1)))
                 log.warning("HTTP %s en %s; reintento en %ss", resp.status_code, path, backoff)

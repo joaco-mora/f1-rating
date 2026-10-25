@@ -101,3 +101,22 @@ def test_local_storage_no_sobrescribe(tmp_path):
 def test_rango_de_temporadas():
     assert main.parse_seasons("2022-2024") == [2022, 2023, 2024]
     assert main.parse_seasons("2024") == [2024]
+
+
+def test_cuenta_rechazos_429_aparte():
+    class SessionCon429:
+        def __init__(self):
+            self.n = 0
+
+        def get(self, url, params=None, timeout=None):
+            self.n += 1
+            if self.n == 1:
+                resp = FakeResponse({}, status=429)
+                resp.headers = {"Retry-After": "0"}
+                return resp
+            return FakeResponse({"ok": True})
+
+    client = jolpica_client.JolpicaClient(SessionCon429())
+    assert client.get("2024.json") == {"ok": True}
+    assert client.rejected == 1
+    assert client.calls == 2
