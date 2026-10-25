@@ -80,7 +80,7 @@ Así, un novato con pocas victorias no aparece arriba mientras su incertidumbre 
 
 1. ~~Ingestor local~~ ✅
 2. ~~Ingestor en Cloud Run + Scheduler~~ ✅
-3. Backfill 2000–2025 
+3. 3. ~~Backfill 2000–2025~~ ✅ 
 4. ~~Motor Glicko-2 y Modelo A v0~~ ✅
 5. Loader + QA con Eventarc: carga en BigQuery, clasificación de abandonos y
    control de completitud (rondas por temporada vs. calendario)
