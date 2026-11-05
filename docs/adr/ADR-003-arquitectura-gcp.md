@@ -3,6 +3,7 @@
 - **Estado:** Aceptado (2026-10-24), con las precisiones de la sección
   "Decisiones tomadas en la implementación"
 - **Fecha:** 2026-10-22
+- **Autor:** Joaco Mora
 - **Relacionado:** ADR-001 (modelo de rating)
 
 ## Contexto

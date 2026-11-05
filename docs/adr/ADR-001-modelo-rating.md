@@ -2,7 +2,7 @@
 
 - **Estado:** Aceptado
 - **Fecha:** 2026-10-22
-- **Autor:** <tu nombre>
+- **Autor:** Joaco Mora
 
 ## Contexto
 

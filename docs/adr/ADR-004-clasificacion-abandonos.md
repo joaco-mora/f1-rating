@@ -2,6 +2,7 @@
 
 - **Estado:** Aceptado (2026-11-04)
 - **Fecha:** 2026-11-04
+- **Autor:** Joaco Mora
 - **Relacionado:** ADR-001 (reglas comunes: abandonos), `reference/status_categoria.csv`
 
 ## Contexto

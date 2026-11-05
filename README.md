@@ -1,5 +1,10 @@
 # F1 Rating
 
+Autor: Joaco Mora · [github.com/joaco-mora](https://github.com/joaco-mora)
+
+
+
+
 Rating histórico de pilotos de F1 con Glicko-2, sobre una arquitectura orientada a
 eventos en Google Cloud. Proyecto personal de aprendizaje.
 
