@@ -80,12 +80,12 @@ Not restarted,exacta,Not restarted,,,no_reanudo,derrota_ponderada,0.5,"No volvi�
 Not classified,exacta,Not classified,,,mecanico,excluir_penaliza_constructor,,"Cubrió menos del 90% de la distancia; si fuera choque diría daño, lo probable es falla del auto"
 Disqualified,exacta,Disqualified,,,sancion,excluir,,Puede ser técnica (equipo) o deportiva (piloto); fuera del duelo y marcado
 Excluded,exacta,Excluded,,,sancion,excluir,,Puede ser técnica (equipo) o deportiva (piloto); fuera del duelo y marcado
-Did not start,exacta,Did not start,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
+Did not start,exacta,Did not start,,,no_compitio,excluir_penaliza_constructor,,No hay duelo; cuenta para la confiabilidad del constructor porque casi siempre es el auto el que no parte (ADR-004)
 Withdrew,exacta,Withdrew,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
 Injured,exacta,Injured,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
 Injury,exacta,Injury,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
 Illness,exacta,Illness,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
 Safety concerns,exacta,Safety concerns,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
 Safety,exacta,Safety,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
-Stalled,exacta,Stalled,,2013,error_piloto,derrota,1.0,"Antes del cambio de reglas, calar el motor era error del piloto (año del cambio a validar)"
-Stalled,exacta,Stalled,2014,,mecanico,excluir_penaliza_constructor,,"Desde el cambio de reglas, calar implica falla del auto (año del cambio a validar)"
+Stalled,exacta,Stalled,,2013,error_piloto,derrota,1.0,"Antes del cambio de reglas, calar el motor era error del piloto (MGU-K desde 2014; reinicios documentados en 2016 y 2017; reglamento ambiguo)"
+Stalled,exacta,Stalled,2014,,mecanico,excluir_penaliza_constructor,,"Desde el cambio de reglas, calar implica falla del auto (MGU-K desde 2014; reinicios documentados en 2016 y 2017; reglamento ambiguo)"
