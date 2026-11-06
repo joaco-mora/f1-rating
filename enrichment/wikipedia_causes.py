@@ -30,6 +30,7 @@ API = "https://en.wikipedia.org/w/api.php"
 # Wikimedia pide identificar al cliente con un User-Agent descriptivo y un contacto.
 USER_AGENT = "f1-rating/0.1 (https://github.com/joaco-mora/f1-rating; proyecto educativo)"
 PAUSA_SEGUNDOS = 1.0
+OVERRIDES = Path(__file__).resolve().parent.parent / "reference" / "wikipedia_overrides.csv"
 TITULOS_SECCION_CARRERA = {"race", "race classification"}
 
 
@@ -93,6 +94,11 @@ def find_race_table(html: str):
     exactamente las mismas columnas que la de la carrera.
     """
     soup = BeautifulSoup(html, "html.parser")
+    # Las notas al pie vienen como superíndices (<sup>) y a veces sin corchetes:
+    # "Laps<sup>a</sup>" se leería "Lapsa", y "Collision<sup>1</sup>", "Collision1".
+    # Se eliminan del HTML antes de leer cualquier texto.
+    for sup in soup.find_all("sup"):
+        sup.decompose()
     for heading in soup.find_all(["h2", "h3", "h4"]):
         if clean(heading.get_text()).lower() in TITULOS_SECCION_CARRERA:
             table = heading.find_next("table")
@@ -143,11 +149,28 @@ def parse_seasons(value: str) -> list[int]:
     return [int(value)]
 
 
-def run(landing: Path, seasons: list[int], out: Path, cache: Path | None) -> Counter:
+def load_overrides(path: Path) -> dict[tuple[int, int], str]:
+    """Títulos de Wikipedia corregidos a mano, para cuando la URL de Jolpica está mal."""
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as f:
+        return {(int(r["season"]), int(r["round"])): r["wiki_title"] for r in csv.DictReader(f)}
+
+
+def run(landing: Path, seasons: list[int], out: Path, cache: Path | None,
+        overrides_path: Path = OVERRIDES) -> Counter:
     session = requests.Session()
     session.headers["User-Agent"] = USER_AGENT
+    overrides = load_overrides(overrides_path)
     stats = Counter()
     causes = Counter()
+
+    def count_unprocessed(race: dict) -> None:
+        """Los 'Retired' de una carrera fallida cuentan en el denominador: si no, la
+        cobertura se ve mejor de lo que es (sesgo de supervivencia en la métrica)."""
+        n = sum(1 for res in race["Results"] if res["status"] == "Retired")
+        stats["retired"] += n
+        stats["retired_sin_procesar"] += n
 
     with out.open("w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
@@ -160,19 +183,21 @@ def run(landing: Path, seasons: list[int], out: Path, cache: Path | None) -> Cou
                 if not races:
                     continue
                 race = races[0]
-                title = page_title(race["url"])
+                title = overrides.get((season, int(race["round"]))) or page_title(race["url"])
                 stats["carreras"] += 1
                 try:
                     html, revid = fetch_page(session, title, cache)
                 except (requests.RequestException, LookupError) as exc:
                     print(f"  ⚠️ {season} R{race['round']}: no se pudo descargar ({exc})")
                     stats["carreras_sin_pagina"] += 1
+                    count_unprocessed(race)
                     continue
 
                 table = find_race_table(html)
                 if table is None:
                     print(f"  ⚠️ {season} R{race['round']}: no se encontró la tabla de carrera en {title}")
                     stats["carreras_sin_tabla"] += 1
+                    count_unprocessed(race)
                     continue
                 wiki = {r["number"]: r for r in parse_rows(table)}
 
@@ -199,7 +224,8 @@ def run(landing: Path, seasons: list[int], out: Path, cache: Path | None) -> Cou
     if stats["retired"]:
         share = stats["retired_con_causa"] / stats["retired"]
         print(f"'Retired' en Jolpica: {stats['retired']}; con causa en Wikipedia: "
-              f"{stats['retired_con_causa']} ({share:.0%})")
+              f"{stats['retired_con_causa']} ({share:.1%}); "
+              f"en carreras no procesadas: {stats['retired_sin_procesar']}")
     print("\nCausas encontradas para los 'Retired' (Pareto):")
     for cause, n in causes.most_common():
         print(f"  {n:>4}  {cause}")
