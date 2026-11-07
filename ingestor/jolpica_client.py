@@ -15,10 +15,12 @@ BASE_URL = "https://api.jolpi.ca/ergast/f1"
 # Límites publicados por Jolpica: 4 requests/segundo y 500/hora.
 #
 # Pausa mínima entre llamadas, configurable sin tocar el código (JOLPICA_MIN_INTERVAL).
-# Con 0,3 s, Cloud Run recibía 429 tras ~30 llamadas; desde un computador local,
-# la latencia frena solo el ritmo a ~1 llamada/s y no hubo 429. Ver ADR-003.
+# MIN_SECONDS_BETWEEN_CALLS es la pausa inicial y mínima, y la real se adapta, para evitar rechazos por 429
 MIN_SECONDS_BETWEEN_CALLS = float(os.environ.get("JOLPICA_MIN_INTERVAL", "1.0"))
 MAX_CALLS_PER_RUN = 450           # bajo las 500/hora
+MAX_INTERVAL = 10.0        # tope de la pausa: nunca esperar más de 10 s entre llamadas
+RECOVERY_STEP = 0.25       # cuánto se acorta la pausa después de una racha de éxitos
+SUCCESSES_TO_RECOVER = 10  # largo de la racha de éxitos necesaria para acelerar
 
 log = logging.getLogger(__name__)
 
@@ -33,6 +35,8 @@ class JolpicaClient:
         self._last_call = 0.0
         self.calls = 0
         self.rejected = 0   # respuestas 429: se reportan aparte para diagnosticar
+        self.interval = MIN_SECONDS_BETWEEN_CALLS   # pausa actual: se adapta al servidor
+        self._streak = 0                            # éxitos seguidos desde el último 429
 
     def _throttle(self) -> None:
         """Espera lo necesario para respetar el ritmo máximo."""
@@ -40,12 +44,24 @@ class JolpicaClient:
             raise RateLimitBudgetExceeded(
                 f"Se alcanzaron {MAX_CALLS_PER_RUN} llamadas; reanudar en la próxima ejecución."
             )
-        wait = MIN_SECONDS_BETWEEN_CALLS - (time.monotonic() - self._last_call)
+        wait = self.interval - (time.monotonic() - self._last_call)
         if wait > 0:
             time.sleep(wait)
 
+    def _on_success(self) -> None:
+        """Después de una racha de éxitos, acorta la pausa un poco (aumento aditivo del ritmo)."""
+        self._streak += 1
+        if self._streak >= SUCCESSES_TO_RECOVER:
+            self.interval = max(MIN_SECONDS_BETWEEN_CALLS, self.interval - RECOVERY_STEP)
+            self._streak = 0
+
+    def _on_rejected(self) -> None:
+        """Ante un 429, duplica la pausa (disminución multiplicativa del ritmo)."""
+        self._streak = 0
+        self.interval = min(MAX_INTERVAL, max(self.interval * 2, 1.0))
+
     def get(self, path: str, retries: int = 4) -> dict:
-        """GET con throttling y reintentos con backoff exponencial."""
+        """GET con pausa adaptativa ante 429 y reintentos ante errores del servidor."""
         url = f"{BASE_URL}/{path}"
         for attempt in range(retries):
             self._throttle()
@@ -54,13 +70,21 @@ class JolpicaClient:
             resp = self.session.get(url, params={"limit": 100}, timeout=30)
 
             if resp.status_code == 200:
+                self._on_success()
                 return resp.json()
 
-            # 429 = nos pasamos del límite; 5xx = falla del servidor. Ambos se reintentan.
             if resp.status_code == 429:
                 self.rejected += 1
-            if resp.status_code == 429 or resp.status_code >= 500:
-                backoff = int(resp.headers.get("Retry-After", 2 ** (attempt + 1)))
+                self._on_rejected()
+                # Si el servidor dice cuánto esperar, se le hace caso; si no, la pausa
+                # ya duplicada (que aplica _throttle antes del reintento) hace el trabajo.
+                retry_after = int(resp.headers.get("Retry-After", 0))
+                log.warning("HTTP 429 en %s; pausa ahora %.2fs", path, self.interval)
+                time.sleep(retry_after)
+                continue
+
+            if resp.status_code >= 500:
+                backoff = 2 ** (attempt + 1)
                 log.warning("HTTP %s en %s; reintento en %ss", resp.status_code, path, backoff)
                 time.sleep(backoff)
                 continue
