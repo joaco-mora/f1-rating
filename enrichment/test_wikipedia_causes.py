@@ -129,3 +129,17 @@ def test_retired_de_carreras_fallidas_cuentan_en_el_denominador(tmp_path):
     assert stats["retired"] == 2
     assert stats["retired_sin_procesar"] == 2
     assert stats["retired_con_causa"] == 0
+
+
+def test_descalificados_con_0_vueltas_no_cuentan_como_inconsistencia(tmp_path):
+    """Jolpica pone 0 vueltas a un descalificado; Wikipedia, las que dio (Hülkenberg, Brasil 2024)."""
+    results = [{"number": "44", "status": "Disqualified", "laps": "0", "Driver": {"driverId": "hamilton"}},
+               {"number": "1", "status": "Finished", "laps": "2", "Driver": {"driverId": "max_verstappen"}}]
+    landing = _carrera(tmp_path, "https://en.wikipedia.org/wiki/Con_DSQ", results)
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    (cache / "Con_DSQ.json").write_text(json.dumps({"html": HTML, "revid": 1}))
+
+    stats = wc.run(landing, [2026], tmp_path / "out.csv", cache, tmp_path / "no_existe.csv")
+    assert stats["vueltas_distintas_dsq"] == 1
+    assert stats["vueltas_distintas"] == 1   # Verstappen: 2 en Jolpica vs. 3 en el HTML de ejemplo

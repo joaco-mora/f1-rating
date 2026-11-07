@@ -207,7 +207,12 @@ def run(landing: Path, seasons: list[int], out: Path, cache: Path | None,
                     if not w:
                         stats["sin_cruce"] += 1
                     elif w["laps"] != res["laps"]:
-                        stats["vueltas_distintas"] += 1
+                        # Convención conocida: Jolpica registra 0 vueltas a los descalificados y
+                        # Wikipedia, las que realmente dieron. No es un error: se cuenta aparte.
+                        if res["status"] == "Disqualified":
+                            stats["vueltas_distintas_dsq"] += 1
+                        else:
+                            stats["vueltas_distintas"] += 1
                     if res["status"] == "Retired":
                         stats["retired"] += 1
                         if has_cause(w.get("time_retired", "")):
@@ -220,7 +225,8 @@ def run(landing: Path, seasons: list[int], out: Path, cache: Path | None,
     print(f"\nCarreras: {stats['carreras']} (sin página: {stats['carreras_sin_pagina']}, "
           f"sin tabla: {stats['carreras_sin_tabla']})")
     print(f"Resultados: {stats['resultados']} (sin cruce por número: {stats['sin_cruce']}, "
-          f"vueltas distintas entre fuentes: {stats['vueltas_distintas']})")
+          f"vueltas distintas entre fuentes: {stats['vueltas_distintas']}, "
+          f"más {stats['vueltas_distintas_dsq']} descalificados con 0 vueltas en Jolpica)")
     if stats["retired"]:
         share = stats["retired_con_causa"] / stats["retired"]
         print(f"'Retired' en Jolpica: {stats['retired']}; con causa en Wikipedia: "

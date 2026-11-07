@@ -27,8 +27,11 @@ COMBINACIONES_VALIDAS = {
     ("no_compitio", "excluir_penaliza_constructor", ""),   # Did not start
     ("no_compitio", "excluir", ""),
     ("fortuito", "excluir", ""),
+    ("victima", "excluir", ""),         # abandono por error de otro piloto (ADR-005)
     ("no_atribuible", "excluir", ""),
     ("sancion", "excluir", ""),
+    ("sancion_tecnica", "excluir_penaliza_constructor", ""),  # auto fuera de reglamento (ADR-005)
+    ("sancion_deportiva", "excluir", ""),                      # ADR-005
 }
 UMBRAL_NO_ATRIBUIBLE = 0.30   # ADR-004, pregunta abierta 3: sobre esto, el modelo pierde validez
 

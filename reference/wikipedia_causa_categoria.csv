@@ -1,0 +1,45 @@
+causa,categoria,tratamiento,peso_derrota,revisar,nota
+collision,colision,derrota_ponderada,0.5,,Contacto con otro auto; no se sabe quién tuvo la culpa
+collision damage,colision,derrota_ponderada,0.5,,Contacto con otro auto; no se sabe quién tuvo la culpa
+accident,error_piloto,derrota,1.0,,Pérdida de control propia. 'Accident damage' validado con Pérez 2024 R9 (trompo propio)
+spun off,error_piloto,derrota,1.0,,Pérdida de control propia. 'Accident damage' validado con Pérez 2024 R9 (trompo propio)
+accident damage,error_piloto,derrota,1.0,,Pérdida de control propia. 'Accident damage' validado con Pérez 2024 R9 (trompo propio)
+engine,mecanico,excluir_penaliza_constructor,,,Falla del auto
+brakes,mecanico,excluir_penaliza_constructor,,,Falla del auto
+gearbox,mecanico,excluir_penaliza_constructor,,,Falla del auto
+overheating,mecanico,excluir_penaliza_constructor,,,Falla del auto
+hydraulics,mecanico,excluir_penaliza_constructor,,,Falla del auto
+suspension,mecanico,excluir_penaliza_constructor,,,Falla del auto
+water pressure,mecanico,excluir_penaliza_constructor,,,Falla del auto
+electrical,mecanico,excluir_penaliza_constructor,,,Falla del auto
+battery,mecanico,excluir_penaliza_constructor,,,Falla del auto
+oil leak,mecanico,excluir_penaliza_constructor,,,Falla del auto
+clutch,mecanico,excluir_penaliza_constructor,,,Falla del auto
+fuel system,mecanico,excluir_penaliza_constructor,,,Falla del auto
+vibrations,mecanico,excluir_penaliza_constructor,,,Falla del auto
+steering,mecanico,excluir_penaliza_constructor,,,Falla del auto
+fuel pump,mecanico,excluir_penaliza_constructor,,,Falla del auto
+oil temperature,mecanico,excluir_penaliza_constructor,,,Falla del auto
+power unit,mecanico,excluir_penaliza_constructor,,,Falla del auto
+water leak,mecanico,excluir_penaliza_constructor,,,Falla del auto
+turbo,mecanico,excluir_penaliza_constructor,,,Falla del auto
+throttle,mecanico,excluir_penaliza_constructor,,,Falla del auto
+oil pressure,mecanico,excluir_penaliza_constructor,,,Falla del auto
+chassis,mecanico,excluir_penaliza_constructor,,,Falla del auto
+coolant leak,mecanico,excluir_penaliza_constructor,,,Falla del auto
+ers,mecanico,excluir_penaliza_constructor,,,Falla del auto
+mechanical,mecanico,excluir_penaliza_constructor,,,Falla del auto
+power loss,mecanico,excluir_penaliza_constructor,,,Falla del auto
+transmission,mecanico,excluir_penaliza_constructor,,,Falla del auto
+broken seat,mecanico,excluir_penaliza_constructor,,,Falla del auto
+safety switch,mecanico,excluir_penaliza_constructor,,,"Componente eléctrico del auto. Si hay evidencia de causa externa, se revisa caso a caso (ej.: Hülkenberg, Barcelona 2026)"
+undertray,mecanico,excluir_penaliza_constructor,,sí,"Nombra la pieza, no el origen: en 2023 R16 fue daño por choque en cadena. Por defecto mecánico; revisar caso a caso"
+pit stop issue,operacion_equipo,excluir_penaliza_constructor,,,Problema en la parada en pits: responsabilidad del equipo
+withdrew,no_compitio,excluir,,,Retirado por el equipo
+heatstroke,fortuito,excluir,,,Condición física por calor extremo; análoga a enfermarse. Decisión del revisor (ADR-005)
+handling,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
+damage,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
+incident damage,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
+puncture,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
+puncture damage,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
+rear wing,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
