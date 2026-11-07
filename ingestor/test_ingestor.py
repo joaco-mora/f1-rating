@@ -120,3 +120,29 @@ def test_cuenta_rechazos_429_aparte():
     assert client.get("2024.json") == {"ok": True}
     assert client.rejected == 1
     assert client.calls == 2
+
+def test_el_freno_usa_la_pausa_adaptativa(monkeypatch):
+    """Si _throttle ignora self.interval, la adaptación no tiene ningún efecto."""
+    esperas = []
+    monkeypatch.setattr(jolpica_client.time, "sleep", esperas.append)
+    client = jolpica_client.JolpicaClient(session=object())
+    client.interval = 3.0
+    client._last_call = jolpica_client.time.monotonic()
+    client._throttle()
+    assert esperas and esperas[0] > 2.9
+
+
+def test_pausa_adaptativa_frena_ante_429_y_se_recupera(monkeypatch):
+    monkeypatch.setattr(jolpica_client.time, "sleep", lambda s: None)
+    respuestas = [FakeResponse({}, status=429)] + [FakeResponse({"ok": True}) for _ in range(11)]
+
+    class Sesion:
+        def get(self, url, params=None, timeout=None):
+            return respuestas.pop(0)
+
+    client = jolpica_client.JolpicaClient(Sesion())
+    client.get("x.json")              # un 429 y luego un éxito
+    assert client.interval == 1.0     # el 429 llevó la pausa al piso de 1 s
+    for _ in range(10):
+        client.get("x.json")
+    assert client.interval == 0.75    # tras 10 éxitos seguidos, se acorta 0,25 s
