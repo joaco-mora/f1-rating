@@ -13,9 +13,11 @@ con igualdad de máquina es contra el compañero de equipo, y de ahí parte el m
 | Documento | Tema |
 |---|---|
 | [ADR-001](docs/adr/ADR-001-modelo-rating.md) | Modelo de rating: Glicko-2, duelos, tratamiento de hiatos y edad |
+| ADR-002 | Reservado para el rating de ritmo (pendiente) |
 | [ADR-003](docs/adr/ADR-003-arquitectura-gcp.md) | Arquitectura orientada a eventos en GCP |
 | [ADR-004](docs/adr/ADR-004-clasificacion-abandonos.md) | Clasificación de abandonos y controles de calidad |
 | [ADR-005](docs/adr/ADR-005-causas-de-abandono.md) | Causas de abandono desde Wikipedia |
+| [ADR-006](docs/adr/ADR-006-rating-clasificacion.md) | Rating de clasificación: fuentes y parrilla como sustituto |
 | [SETUP.md](SETUP.md) | Puesta en marcha: computador local, GitHub y GCP |
 
 Datos: [Jolpica-F1](https://github.com/jolpica/jolpica-f1), sucesor de la API de Ergast,
