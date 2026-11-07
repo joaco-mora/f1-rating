@@ -13,6 +13,10 @@ Vocabulario:
 - vol (σ): volatilidad, o qué tan errático es el desempeño del jugador.
 Internamente, Glicko-2 trabaja en otra escala (μ, φ); se convierte al
 entrar y al salir.
+
+Extensión con pesos (ADR-004): cada partida puede pesar menos que 1. Su
+contribución a la varianza (v) y a la mejora (Δ) se multiplica por el peso.
+Con todos los pesos en 1, el resultado es idéntico al paper.
 """
 
 import math
@@ -50,6 +54,7 @@ class Player:
 class Game:
     opponent: Player   # el rival, con su rating ANTES del período
     score: float       # 1 = ganó, 0 = perdió, 0.5 = empate
+    weight: float = 1.0  # cuánta información aporta la partida (ADR-004)
 
 
 def _g(phi: float) -> float:
@@ -106,6 +111,7 @@ def update(player: Player, games: list[Game]) -> Player:
     estimado no cambia, pero sabemos menos del jugador. Así se modela un hiato.
     """
     mu, phi, vol = player.mu, player.phi, player.vol
+    games = [g for g in games if g.weight > 0]
 
     if not games:
         new_phi = math.sqrt(phi**2 + vol**2)
@@ -118,8 +124,8 @@ def update(player: Player, games: list[Game]) -> Player:
     for game in games:
         g = _g(game.opponent.phi)
         e = _expected(mu, game.opponent.mu, game.opponent.phi)
-        v_inv += g**2 * e * (1 - e)
-        delta_sum += g * (game.score - e)
+        v_inv += game.weight * g**2 * e * (1 - e)
+        delta_sum += game.weight * g * (game.score - e)
     v = 1 / v_inv
     delta = v * delta_sum
 
