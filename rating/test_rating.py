@@ -204,3 +204,21 @@ def test_indianapolis_1950_1960_queda_excluida(tmp_path):
     out = br.build(tmp_path, min_duels=1)
     assert out["resumen"]["indianapolis_excluidas"] == 1
     assert out["resumen"]["carreras"] == 0
+
+
+def test_autos_compartidos_y_piloto_repetido_no_generan_duelos(tmp_path):
+    """Bélgica 1953: Fangio figura dos veces (manejó dos autos) y compartió el auto 6 con otro piloto."""
+    results = [
+        dict(resultado("fangio", "maserati", 1, 1), number="4"),
+        dict(resultado("gonzalez", "maserati", 2, 2), number="6"),
+        dict(resultado("fangio", "maserati", 3, 3), number="6"),
+        dict(resultado("marimon", "maserati", 4, 4), number="8"),
+    ]
+    escribir(tmp_path, 1953, 4, results)
+    out = br.build(tmp_path, min_duels=1)
+    # El auto 6 queda fuera: solo hay un duelo válido, Fangio (auto 4) contra Marimón (auto 8).
+    assert out["resumen"]["resultados_en_autos_compartidos"] == 2
+    for nombre in ("v0", "v1", "clasificacion"):
+        stats = out["pistas"][nombre].stats
+        assert stats["fangio"].duels == 1
+        assert stats["gonzalez"].duels == 0

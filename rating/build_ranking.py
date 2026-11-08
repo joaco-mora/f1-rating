@@ -25,6 +25,19 @@ REFERENCE = Path(__file__).resolve().parent.parent / "reference"
 PIERDE = {"derrota", "derrota_ponderada"}   # tratamientos en que el piloto pierde el duelo
 
 
+def autos_compartidos(results: list[dict]) -> set[str]:
+    """Números de auto que aparecen más de una vez: autos compartidos (común en los años 50).
+    Provisional hasta el ADR-007: no se sabe cuánto manejó cada piloto, así que esos
+    resultados no miden a ninguno y quedan fuera de los duelos."""
+    numeros = Counter(r.get("number") for r in results if r.get("number"))
+    return {n for n, veces in numeros.items() if veces > 1}
+
+
+def sin_compartidos(results: list[dict]) -> list[dict]:
+    compartidos = autos_compartidos(results)
+    return [r for r in results if r.get("number") not in compartidos]
+
+
 def es_indianapolis(race: dict) -> bool:
     """Las 500 Millas (1950-1960): otra competencia con otros pilotos; ADR pendiente."""
     return race.get("Circuit", {}).get("circuitId") == "indianapolis" and int(race["season"]) <= 1960
@@ -140,12 +153,14 @@ def termino(status: str) -> bool:
 
 def duelos_v0(results: list[dict]) -> list[tuple[str, str, float]]:
     por_equipo = defaultdict(list)
-    for r in results:
+    for r in sin_compartidos(results):
         if termino(r["status"]):
             por_equipo[r["Constructor"]["constructorId"]].append(r)
     out = []
     for equipo in por_equipo.values():
         for a, b in combinations(equipo, 2):
+            if a["Driver"]["driverId"] == b["Driver"]["driverId"]:
+                continue
             g, p = (a, b) if int(a["position"]) < int(b["position"]) else (b, a)
             out.append((g["Driver"]["driverId"], p["Driver"]["driverId"], 1.0))
     return out
@@ -157,7 +172,7 @@ def duelos_v1(race: dict, clasificador: Clasificador) -> list[tuple[str, str, fl
     ganador = next((r for r in results if r["position"] == "1"), None)
     vueltas_carrera = int(ganador["laps"]) if ganador else 0
     por_equipo = defaultdict(list)
-    for r in results:
+    for r in sin_compartidos(results):
         d = r["Driver"]["driverId"]
         clase = clasificador.clasificar(season, rnd, d, r["status"])
         por_equipo[r["Constructor"]["constructorId"]].append(
@@ -165,6 +180,8 @@ def duelos_v1(race: dict, clasificador: Clasificador) -> list[tuple[str, str, fl
     out = []
     for equipo in por_equipo.values():
         for a, b in combinations(equipo, 2):
+            if a.driver == b.driver:
+                continue   # un piloto que figura dos veces (manejó dos autos) no compite consigo mismo
             d = duelo(a, b, vueltas_carrera)
             if d and d[2] > 0:
                 out.append(d)
@@ -175,7 +192,7 @@ def duelos_clasificacion(race: dict, qualifying: list[dict] | None,
                          fuentes: Counter) -> list[tuple[str, str, float]]:
     """ADR-006: clasificación real si existe; si no, la parrilla (sin largadas desde pits)."""
     equipos = defaultdict(list)
-    for r in race["Results"]:
+    for r in sin_compartidos(race["Results"]):
         equipos[r["Constructor"]["constructorId"]].append(r["Driver"]["driverId"])
     if qualifying:
         orden = {q["Driver"]["driverId"]: int(q["position"]) for q in qualifying}
@@ -186,7 +203,7 @@ def duelos_clasificacion(race: dict, qualifying: list[dict] | None,
     out = []
     for pilotos in equipos.values():
         for a, b in combinations(pilotos, 2):
-            if a in orden and b in orden:
+            if a != b and a in orden and b in orden:
                 out.append((a, b, 1.0) if orden[a] < orden[b] else (b, a, 1.0))
                 fuentes[fuente] += 1
     return out
@@ -267,6 +284,7 @@ def build(landing: Path, min_duels: int, clasificador: Clasificador | None = Non
             resumen["indianapolis_excluidas"] += 1
             continue
         resumen["carreras"] += 1
+        resumen["resultados_en_autos_compartidos"] += len(race["Results"]) - len(sin_compartidos(race["Results"]))
         for r in race["Results"]:
             d = r["Driver"]
             for pista in pistas.values():
@@ -299,6 +317,7 @@ def _cambio(pid: str, pos_v0: dict, i: int) -> str:
 def imprimir(out: dict, top: int) -> None:
     pistas, r = out["pistas"], out["resumen"]
     print(f"\nCarreras: {r['carreras']} (más {r['indianapolis_excluidas']} de Indianápolis 1950-1960, excluidas)")
+    print(f"Resultados en autos compartidos, fuera de los duelos: {r['resultados_en_autos_compartidos']}")
     print(f"Abandonos clasificados por fuente: {dict(out['abandonos_por_fuente'])}")
     cuarentena = out["cuarentena"]
     print(f"Cuarentena: {sum(cuarentena.values())} resultados"
