@@ -43,3 +43,12 @@ incident damage,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar 
 puncture,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
 puncture damage,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
 rear wing,no_atribuible,excluir,,,"Indica el efecto, no la causa; revisar caso a caso cuando haya evidencia"
+skid block,sancion_tecnica,excluir_penaliza_constructor,,,Descalificación técnica: tabla del fondo o peso
+plank wear,sancion_tecnica,excluir_penaliza_constructor,,,Descalificación técnica: tabla del fondo o peso
+underweight car,sancion_tecnica,excluir_penaliza_constructor,,,Descalificación técnica: tabla del fondo o peso
+car damaged,no_atribuible,excluir,,,"Indica el efecto, no la causa"
+fuel leak,mecanico,excluir_penaliza_constructor,,,Falla del auto
+hydraulics/accident,mecanico,excluir_penaliza_constructor,,,"La falla provocó el accidente: mecánico, no error del piloto"
+suspension/accident,mecanico,excluir_penaliza_constructor,,,"La falla provocó el accidente: mecánico, no error del piloto"
+qualifying accident,error_piloto,derrota,1.0,,No largó por chocar en la clasificación: error del piloto
+floor,mecanico,excluir_penaliza_constructor,,sí,"Nombra la pieza, no el origen (como Undertray): mecánico por regla, revisable caso a caso"

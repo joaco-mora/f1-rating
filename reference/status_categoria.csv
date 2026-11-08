@@ -89,3 +89,20 @@ Safety concerns,exacta,Safety concerns,,,no_compitio,excluir,,No hubo competenci
 Safety,exacta,Safety,,,no_compitio,excluir,,No hubo competencia real: no genera duelo
 Stalled,exacta,Stalled,,2013,error_piloto,derrota,1.0,"Antes del cambio de reglas, calar el motor era error del piloto (MGU-K desde 2014; reinicios documentados en 2016 y 2017; reglamento ambiguo)"
 Stalled,exacta,Stalled,2014,,mecanico,excluir_penaliza_constructor,,"Desde el cambio de reglas, calar implica falla del auto (MGU-K desde 2014; reinicios documentados en 2016 y 2017; reglamento ambiguo)"
+Injection,exacta,Injection,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Wheel bearing,exacta,Wheel bearing,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Axle,exacta,Axle,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Distributor,exacta,Distributor,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Oil pump,exacta,Oil pump,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Oil pipe,exacta,Oil pipe,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Water pipe,exacta,Water pipe,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Fuel pipe,exacta,Fuel pipe,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Supercharger,exacta,Supercharger,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+CV joint,exacta,CV joint,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Safety belt,exacta,Safety belt,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Magneto,exacta,Magneto,,,mecanico,excluir_penaliza_constructor,,Falla del auto (vocabulario de 1950-1999)
+Underweight,exacta,Underweight,,,sancion_tecnica,excluir_penaliza_constructor,,Auto bajo el peso mínimo: descalificación técnica
+Physical,exacta,Physical,,,fortuito,excluir,,Condición física del piloto en carrera; análogo a Heatstroke
+Driver unwell,exacta,Driver unwell,,,fortuito,excluir,,Condición física del piloto en carrera; análogo a Heatstroke
+Eye injury,exacta,Eye injury,,,fortuito,excluir,,"Lesión en carrera, probablemente por restos"
+Fatal accident,exacta,Fatal accident,,,fortuito,excluir,,Único caso en que la causa no cambia nada del resultado deportivo; no se atribuye
